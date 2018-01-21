@@ -1,0 +1,90 @@
+#!/bin/bash
+
+
+#ADD THIS FUNCTION TO YOUR .bashrc OR .bash_profile FILE
+dev(){
+    EMACSDIR='/usr/share/emacs23'
+    
+    #Comment and uncomment as needed
+    EDITOR='emacs' 
+    #EDITOR='vim'
+    #EDITOR='vi'
+    #EDITOR='nano'
+    #EDITOR='pico'
+    
+    
+    if [  $EDITOR == 'emacs' ]
+    then
+	if [ ! -d "$EMACSDIR" ]
+	then
+	    echo "Installing emacs..."
+	    sleep 2
+	    sudo apt-get install emacs23-nox -y
+	fi
+    fi
+    
+    if [ -f $1 ]
+    then
+        $EDITOR $1
+    else
+	case $1 in
+	    *.sh | *.bash)
+		touch $1
+	        cat $HOME/.Self/bash.sh > $1
+		chmod +x $1
+		$EDITOR $1
+		;;
+	    
+		*.py)
+		touch $1
+		cat $HOME/.Self/py.py > $1
+		chmod +x $1
+	        $EDITOR $1
+		;;
+	    
+	    *.c)
+		touch $1
+		cat $HOME/.Self/c.c > $1
+		$EDITOR $1
+		;;
+	    
+	    *.c++ | *.cpp)
+		touch $1
+		cat $HOME/.Self/cpp.c++ > $1
+		$EDITOR $1
+		;;
+	    
+	    *.java)
+		touch $1
+		cat $HOME/.Self/java.java > $1
+		readonly CLASSNAME=$(1//.java)
+		'sed -i 's//*File_Name_Here*//$CLASSNAME/g'' $1
+		$EDITOR $1
+		;;
+	    
+	    *.html)
+		touch $1
+		cat $HOME/.Self/html.html > $1
+		$EDITOR $1
+		;;
+	    
+	    "dev")
+		echo -e " "
+		echo -e " If you're having issues with the dev command"
+                echo -e " \tnavigate to: $HOME/.Dev/ and use: make run"
+                echo -e " If that doesnt solve your proble, try building"
+                echo -e " \tit from scratch by using:"
+		echo -e " \tgit clone https://github.com/J-O-R-G-E/dev.git"
+                echo -e " Navigate to that directory, dev, again and use:"
+                echo -e " \tmake clean"
+                echo -e " \tmake" 
+		echo -e " \tmake run\n"
+		;;
+
+	    	    
+	    *)
+		$EDITOR $1
+		;;
+	esac
+    fi
+}
