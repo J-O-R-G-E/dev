@@ -58,6 +58,7 @@ dev(){
 		touch $1
 		cat $HOME/.Self/java.java > $1
 		readonly CLASSNAME=$(1//.java)
+		echo $CLASSNAME
 		'sed -i 's/File_Name_Here/$CLASSNAME/g'' $1
 		$EDITOR $1
 		;;
