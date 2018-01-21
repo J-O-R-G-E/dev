@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-#ADD THIS FUNCTION TO YOUR .bashrc OR .bash_profile FILE
 dev(){
     EMACSDIR='/usr/share/emacs23'
     
@@ -13,6 +12,7 @@ dev(){
     #EDITOR='pico'
     
     
+    #Check if emacs is the editor and if it is installed
     if [  $EDITOR == 'emacs' ]
     then
 	if [ ! -d "$EMACSDIR" ]
@@ -23,52 +23,57 @@ dev(){
 	fi
     fi
     
+
+    #Is this a new file?
     if [ -f $1 ]
     then
         $EDITOR $1
     else
+	
+	#Lets check what kind of file was it
 	case $1 in
 	    *.sh | *.bash)
 		touch $1
-	        cat $HOME/.Self/bash.sh > $1
+	        cat $HOME/.Dev/bash.sh > $1
 		chmod +x $1
 		$EDITOR $1
 		;;
 	    
 		*.py)
 		touch $1
-		cat $HOME/.Self/py.py > $1
+		cat $HOME/.Dev/py.py > $1
 		chmod +x $1
 	        $EDITOR $1
 		;;
 	    
 	    *.c)
 		touch $1
-		cat $HOME/.Self/c.c > $1
+		cat $HOME/.Dev/c.c > $1
 		$EDITOR $1
 		;;
 	    
 	    *.c++ | *.cpp)
 		touch $1
-		cat $HOME/.Self/cpp.c++ > $1
+		cat $HOME/.Dev/cpp.c++ > $1
 		$EDITOR $1
 		;;
 	    
 	    *.java)
 		touch $1
-		cat $HOME/.Self/java.java > $1
-		readonly CLASSNAME=$(1//.java)
-		echo $CLASSNAME
-		'sed -i 's/File_Name_Here/$CLASSNAME/g'' $1
+		cat $HOME/.Dev/java.java > $1
+		readonly CLASSNAME="$1"           #Removes the last 5 chars
+		sed -i s'/\/\*\File_Name_Here\*\//'${CLASSNAME::-5}' /'g $1 
 		$EDITOR $1
 		;;
 	    
 	    *.html)
 		touch $1
-		cat $HOME/.Self/html.html > $1
+		cat $HOME/.Dev/html.html > $1
 		$EDITOR $1
 		;;
 	    
+
+	    #Kinda like a 'man page'
 	    "dev")
 		echo -e " "
 		echo -e " If you're having issues with the dev command"
